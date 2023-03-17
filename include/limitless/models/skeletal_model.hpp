@@ -6,9 +6,11 @@
 #include <glm/gtx/quaternion.hpp>
 #include <unordered_map>
 
-namespace Limitless {
+namespace Limitless 
+{
     template <typename T>
-    struct KeyFrame {
+    struct KeyFrame 
+    {
         T data;
         double time;
 
@@ -17,7 +19,8 @@ namespace Limitless {
             , time(time) {}
     };
 
-    struct AnimationNode {
+    struct AnimationNode
+    {
         std::vector<KeyFrame<glm::fquat>> rotations;
         std::vector<KeyFrame<glm::vec3>> positions;
         std::vector<KeyFrame<glm::vec3>> scales;
@@ -33,7 +36,8 @@ namespace Limitless {
         [[nodiscard]] glm::vec3 scalingLerp(double anim_time) const;
     };
 
-    struct Animation {
+    struct Animation 
+    {
         std::vector<AnimationNode> nodes;
         std::string name;
         double duration;
@@ -47,7 +51,8 @@ namespace Limitless {
         }
     };
 
-    class SkeletalModel : public Model {
+    class SkeletalModel : public Model
+    {
     protected:
         std::unordered_map<std::string, uint32_t> bone_map;
         std::vector<Animation> animations;

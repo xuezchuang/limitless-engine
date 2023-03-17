@@ -42,7 +42,8 @@ namespace Limitless::fx {
     };
 
     template<typename Particle>
-    class Module {
+    class Module
+    {
     protected:
         ModuleType type;
         explicit Module(ModuleType _type) noexcept : type {_type} {}

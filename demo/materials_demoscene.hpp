@@ -3,7 +3,7 @@
 #include <limitless/scene.hpp>
 #include <limitless/assets.hpp>
 #include <limitless/instances/model_instance.hpp>
-
+#include <corecrt_math_defines.h>
 namespace LimitlessDemo {
     class MaterialsScene : public Limitless::Scene {
     private:

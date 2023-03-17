@@ -2,7 +2,7 @@
 
 #include <limitless/core/extension_texture.hpp>
 #include <limitless/core/context_initializer.hpp>
-
+#include <array>
 using namespace Limitless;
 
 void Texture::storage(const void* data) {

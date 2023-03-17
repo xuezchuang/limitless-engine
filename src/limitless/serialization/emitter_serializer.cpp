@@ -4,7 +4,7 @@
 #include <limitless/serialization/distribution_serializer.hpp>
 #include <limitless/serialization/material_serializer.hpp>
 
-#include <limitless/fx/effect_builder.hpp>
+#include <limitless/fx/effect_builder.h>
 #include <limitless/ms/material.hpp>
 #include <limitless/assets.hpp>
 #include <limitless/models/abstract_mesh.hpp>
@@ -15,7 +15,8 @@
 using namespace Limitless;
 using namespace Limitless::fx;
 
-ByteBuffer EmitterSerializer::serialize(const AbstractEmitter& emitter) {
+ByteBuffer EmitterSerializer::serialize(const AbstractEmitter& emitter)
+{
     ByteBuffer buffer;
 
     buffer << VERSION;
@@ -27,21 +28,25 @@ ByteBuffer EmitterSerializer::serialize(const AbstractEmitter& emitter) {
            << emitter.getSpawn()
            << emitter.getDuration().count();
 
-    switch (emitter.getType()) {
-        case AbstractEmitter::Type::Sprite: {
+    switch (emitter.getType())
+    {
+        case AbstractEmitter::Type::Sprite: 
+        {
             const auto& sprite_emitter = static_cast<const SpriteEmitter&>(emitter);
             buffer << *sprite_emitter.material
                    << sprite_emitter.modules;
             break;
         }
-        case AbstractEmitter::Type::Mesh: {
+        case AbstractEmitter::Type::Mesh: 
+        {
             const auto& mesh_emitter = static_cast<const MeshEmitter&>(emitter);
             buffer << *mesh_emitter.material
                    << mesh_emitter.modules
                    << mesh_emitter.getMesh()->getName();
             break;
         }
-        case AbstractEmitter::Type::Beam: {
+        case AbstractEmitter::Type::Beam: 
+        {
             const auto& beam_emitter = static_cast<const BeamEmitter&>(emitter);
             buffer << *beam_emitter.material
                    << beam_emitter.modules;
@@ -68,7 +73,8 @@ void EmitterSerializer::deserialize(Assets& assets, ByteBuffer& buffer, EffectBu
 
     buffer >> version;
 
-    if (version != VERSION) {
+    if (version != VERSION) 
+    {
         throw std::runtime_error("Wrong emitter serializer version! " + std::to_string(VERSION) + " vs " + std::to_string(version));
     }
 
@@ -80,8 +86,10 @@ void EmitterSerializer::deserialize(Assets& assets, ByteBuffer& buffer, EffectBu
            >> duration
            >> AssetDeserializer<std::shared_ptr<ms::Material>>{assets, material};
 
-    switch (type) {
-        case AbstractEmitter::Type::Sprite: {
+    switch (type) 
+    {
+        case AbstractEmitter::Type::Sprite: 
+        {
             decltype(SpriteEmitter::modules) modules;
             buffer >> AssetDeserializer<decltype(modules)>{assets, modules};
 
@@ -89,7 +97,8 @@ void EmitterSerializer::deserialize(Assets& assets, ByteBuffer& buffer, EffectBu
                    .setModules<SpriteEmitter>(std::move(modules));
             break;
         }
-        case AbstractEmitter::Type::Mesh: {
+        case AbstractEmitter::Type::Mesh:
+        {
             decltype(MeshEmitter::modules) modules;
             buffer >> AssetDeserializer<decltype(modules)>{assets, modules};
 
@@ -102,7 +111,8 @@ void EmitterSerializer::deserialize(Assets& assets, ByteBuffer& buffer, EffectBu
             builder.setMesh(assets.meshes.at(mesh_name));
             break;
         }
-        case AbstractEmitter::Type::Beam: {
+        case AbstractEmitter::Type::Beam:
+        {
             decltype(BeamEmitter::modules) modules;
             buffer >> AssetDeserializer<decltype(modules)>{assets, modules};
 

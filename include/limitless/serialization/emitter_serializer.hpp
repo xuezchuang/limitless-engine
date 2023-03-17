@@ -1,7 +1,7 @@
 #pragma once
 
 #include <memory>
-#include <limitless/fx/effect_builder.hpp>
+#include <limitless/fx/effect_builder.h>
 
 namespace Limitless {
     class ByteBuffer;

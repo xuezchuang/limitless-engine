@@ -93,14 +93,15 @@ namespace Limitless {
             map();
         }
 
-        void draw(VertexStreamDraw draw_mode) noexcept override {
+        void draw(VertexStreamDraw draw_mode) noexcept override 
+        {
             if (stream.empty()) {
                 return;
             }
 
             vertex_array.bind();
 
-            glDrawArrays(static_cast<GLenum>(draw_mode), 0, stream.size());
+            glDrawArrays(static_cast<GLenum>(draw_mode), 0, (GLsizei)stream.size());
 
             vertex_buffer->fence();
         }
@@ -112,7 +113,7 @@ namespace Limitless {
 
             vertex_array.bind();
 
-            glDrawArraysInstanced(static_cast<GLenum>(draw_mode), 0, stream.size(), count);
+            glDrawArraysInstanced(static_cast<GLenum>(draw_mode), 0, (GLsizei)stream.size(), (GLsizei)count);
 
             vertex_buffer->fence();
         }

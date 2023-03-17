@@ -48,20 +48,22 @@ namespace Limitless {
 
             this->vertex_array.bind();
 
-            glDrawElements(static_cast<GLenum>(draw_mode), indices.size(), GL_UNSIGNED_INT, nullptr);
+            glDrawElements(static_cast<GLenum>(draw_mode), (GLsizei)indices.size(), GL_UNSIGNED_INT, nullptr);
 
             this->vertex_buffer->fence();
             indices_buffer->fence();
         }
 
-        void draw_instanced(VertexStreamDraw mode, std::size_t count) noexcept override {
-            if (this->stream.empty()) {
+        void draw_instanced(VertexStreamDraw mode, std::size_t count) noexcept override 
+        {
+            if (this->stream.empty())
+            {
                 return;
             }
 
             this->vertex_array.bind();
 
-            glDrawElementsInstanced(static_cast<GLenum>(mode), indices.size(), GL_UNSIGNED_INT, nullptr, count);
+            glDrawElementsInstanced(static_cast<GLenum>(mode), (GLsizei)indices.size(), GL_UNSIGNED_INT, nullptr, (GLsizei)count);
 
             this->vertex_buffer->fence();
             indices_buffer->fence();

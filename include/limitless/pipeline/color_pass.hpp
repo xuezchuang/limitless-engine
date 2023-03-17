@@ -1,7 +1,7 @@
 #pragma once
 
 #include <limitless/pipeline/render_pass.hpp>
-
+#include <algorithm>
 namespace Limitless::ms {
     enum class Blending;
 }

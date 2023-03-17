@@ -1,7 +1,7 @@
 #include "assets.hpp"
 
 #include <limitless/ms/material_builder.hpp>
-#include <limitless/fx/effect_builder.hpp>
+#include <limitless/fx/effect_builder.h>
 #include <limitless/fx/emitters/sprite_emitter.hpp>
 #include <limitless/fx/emitters/mesh_emitter.hpp>
 #include <limitless/fx/emitters/beam_emitter.hpp>
@@ -11,6 +11,7 @@
 #include <limitless/skybox/skybox.hpp>
 #include <limitless/text/font_atlas.hpp>
 #include <iostream>
+
 
 using namespace Limitless::ms;
 using namespace Limitless::fx;
@@ -315,7 +316,8 @@ void DemoAssets::loadMaterialsScene() {
             .build();
 }
 
-void DemoAssets::loadEffectsScene() {
+void DemoAssets::loadEffectsScene() 
+{
     {
         MaterialBuilder builder {*this};
         const fs::path assets_dir {ENGINE_ASSETS_DIR};
@@ -364,7 +366,7 @@ void DemoAssets::loadEffectsScene() {
                     .addColorByLife(std::make_unique<ConstDistribution<glm::vec4>>(glm::vec4(0.54f * 4.0f, 0.0f, 1.0f * 4.0f, 1.0f)))
                     .addCustomMaterial(std::make_unique<RangeDistribution<float>>(0.0f, 0.3f), std::make_unique<RangeDistribution<float>>(0.0f, 2.5f), std::make_unique<RangeDistribution<float>>(0.0, 5.0f), nullptr)
                     .addCustomMaterialByLife(std::make_unique<ConstDistribution<float>>(1.0f), std::make_unique<ConstDistribution<float>>(10.0f), nullptr, nullptr)
-                .createEmitter<SpriteEmitter>("smoke_black")
+                .createEmitter<Limitless::fx::SpriteEmitter>("smoke_black")
                     .setSpawnMode(::EmitterSpawn::Mode::Burst)
                     .setBurstCount(std::make_unique<ConstDistribution<uint32_t>>(50))
                     .setMaxCount(50)
@@ -709,7 +711,8 @@ void DemoAssets::loadEffectsScene() {
     }
 }
 
-void DemoAssets::loadModelsScene() {
+void DemoAssets::loadModelsScene() 
+{
     {
         const fs::path assets_dir{ENGINE_ASSETS_DIR};
 

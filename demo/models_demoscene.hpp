@@ -4,7 +4,7 @@
 #include <limitless/assets.hpp>
 #include <limitless/core/context.hpp>
 #include <limitless/camera.hpp>
-
+#include <corecrt_math_defines.h>
 namespace LimitlessDemo {
     class ModelsScene : public Limitless::Scene {
     private:

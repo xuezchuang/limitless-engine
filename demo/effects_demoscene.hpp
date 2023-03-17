@@ -1,6 +1,6 @@
 #include <limitless/scene.hpp>
 #include <limitless/instances/effect_instance.hpp>
-
+#include <corecrt_math_defines.h>
 namespace LimitlessDemo {
     class EffectsScene : public Limitless::Scene {
     private:

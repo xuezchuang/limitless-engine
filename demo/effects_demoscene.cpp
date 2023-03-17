@@ -3,7 +3,7 @@
 #include <limitless/assets.hpp>
 #include <limitless/loaders/texture_loader.hpp>
 #include <limitless/ms/material_builder.hpp>
-#include <limitless/fx/effect_builder.hpp>
+#include <limitless/fx/effect_builder.h>
 #include <limitless/fx/emitters/beam_emitter.hpp>
 #include <limitless/fx/emitters/sprite_emitter.hpp>
 #include <limitless/fx/emitters/mesh_emitter.hpp>

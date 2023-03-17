@@ -6,14 +6,17 @@
 #include <mutex>
 #include <algorithm>
 
-namespace Limitless {
-    struct resource_container_error : public std::runtime_error {
+namespace Limitless 
+{
+    struct resource_container_error : public std::runtime_error 
+    {
         explicit resource_container_error(const std::string& error) : runtime_error(error) {}
         explicit resource_container_error(const char* error) : runtime_error(error) {}
     };
 
     template<typename T>
-    class ResourceContainer final {
+    class ResourceContainer final
+    {
     private:
         std::unordered_map<std::string, std::shared_ptr<T>> resource;
         // fix const ^at
@@ -22,30 +25,39 @@ namespace Limitless {
         ResourceContainer() = default;
         ~ResourceContainer() = default;
 
-        auto& operator[](const std::string& name) noexcept {
+        auto& operator[](const std::string& name) noexcept 
+        {
             std::unique_lock lock(mutex);
             return resource[name];
         }
 
-        const auto& at(const std::string& name) {
+        const auto& at(const std::string& name) 
+        {
             std::unique_lock lock(mutex);
-            try {
+            try 
+            {
                 return resource.at(name);
-            } catch (...) {
+            } 
+            catch (...) 
+            {
                 throw resource_container_error("No such resource called " + name);
             }
         }
 
-        const auto& at(const std::string& name) const {
+        const auto& at(const std::string& name) const 
+        {
             std::unique_lock lock(mutex);
-            try {
+            try 
+            {
                 return resource.at(name);
-            } catch (...) {
+            } catch (...) 
+            {
                 throw resource_container_error("No such resource called " + name);
             }
         }
 
-        void add(const std::string& name, std::shared_ptr<T> res) {
+        void add(const std::string& name, std::shared_ptr<T> res)
+        {
             std::unique_lock lock(mutex);
             const auto result = resource.emplace(name, std::move(res));
             if (!result.second) {
@@ -53,22 +65,26 @@ namespace Limitless {
             }
         }
 
-        void remove(const std::string& name) {
+        void remove(const std::string& name)
+        {
             std::unique_lock lock(mutex);
             resource.erase(name);
         }
 
-	    auto remove(typename decltype(resource)::iterator it) {
+	    auto remove(typename decltype(resource)::iterator it) 
+        {
 		    std::unique_lock lock(mutex);
 		    return resource.erase(it);
 	    }
 
-        [[nodiscard]] bool contains(const std::string& name) {
+        [[nodiscard]] bool contains(const std::string& name)
+        {
             std::unique_lock lock(mutex);
             return resource.find(name) != resource.end();
         }
 
-        const auto& getName(const std::shared_ptr<T>& res) {
+        const auto& getName(const std::shared_ptr<T>& res)
+        {
             const auto found = std::find_if(resource.begin(), resource.end(), [&] (const auto& pair) {
                 return pair.second == res;
             });

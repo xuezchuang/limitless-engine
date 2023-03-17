@@ -22,7 +22,8 @@ namespace Limitless {
         ~VertexAttribute() = default;
     };
 
-    class VertexArray {
+    class VertexArray 
+    {
     private:
         std::unordered_map<GLuint, VertexAttribute> attributes;
         std::shared_ptr<Buffer> element_buffer {};

@@ -1,4 +1,4 @@
-#include <limitless/fx/effect_builder.hpp>
+#include <limitless/fx/effect_builder.h>
 
 #include <limitless/instances/effect_instance.hpp>
 
@@ -48,8 +48,9 @@ EffectBuilder& EffectBuilder::setSpawnMode(EmitterSpawn::Mode mode) {
     return *this;
 }
 
-EffectBuilder& EffectBuilder::setMaxCount(uint64_t max_count) {
-    effect->emitters.at(last_emitter)->getSpawn().max_count = max_count;
+EffectBuilder& EffectBuilder::setMaxCount(uint64_t max_count)
+{
+    effect->emitters.at(last_emitter)->getSpawn().max_count = (uint32_t)max_count;
     return *this;
 }
 
@@ -124,6 +125,23 @@ void EffectBuilder::addModule(Args&&... args) {
             break;
     }
 }
+//
+//template<typename Emitter>
+//EffectBuilder& EffectBuilder::setModules(decltype(Emitter::modules) && modules)
+//{
+//	if constexpr (std::is_same_v<Emitter, SpriteEmitter>) {
+//		effect->get<SpriteEmitter>(last_emitter).modules = std::move(modules);
+//	}
+//
+//	if constexpr (std::is_same_v<Emitter, MeshEmitter>) {
+//		effect->get<MeshEmitter>(last_emitter).modules = std::move(modules);
+//	}
+//
+//	if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
+//		effect->get<BeamEmitter>(last_emitter).modules = std::move(modules);
+//	}
+//	return *this;
+//}
 
 EffectBuilder& EffectBuilder::addInitialLocation(std::unique_ptr<Distribution<glm::vec3>> distribution) {
     addModule<InitialLocation>(std::move(distribution));
@@ -399,36 +417,39 @@ EffectBuilder& EffectBuilder::create(std::string name) {
     return *this;
 }
 
+//template<typename Emitter>
+//EffectBuilder& EffectBuilder::setModules(decltype(Emitter::modules)&& modules)
+//{
+//    if constexpr (std::is_same_v<Emitter, SpriteEmitter>) {
+//        effect->get<SpriteEmitter>(last_emitter).modules = std::move(modules);
+//    }
+//
+//    if constexpr (std::is_same_v<Emitter, MeshEmitter>) {
+//        effect->get<MeshEmitter>(last_emitter).modules = std::move(modules);
+//    }
+//
+//    if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
+//        effect->get<BeamEmitter>(last_emitter).modules = std::move(modules);
+//    }
+//    return *this;
+//}
+
+//template<typename Emitter>
+//EffectBuilder& EffectBuilder::createEmitter(const std::string& name) 
+//{
+//    //last_emitter = name;
+//    //effect->emitters[name] = std::unique_ptr<Emitter>(new Emitter());
+//
+//    //if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
+//    //    effect->get<BeamEmitter>(last_emitter).modules.emplace(new BeamBuilder<BeamParticle>());
+//    //}
+//
+//    return *this;
+//}
+
 template<typename Emitter>
-EffectBuilder& EffectBuilder::setModules(decltype(Emitter::modules)&& modules) {
-    if constexpr (std::is_same_v<Emitter, SpriteEmitter>) {
-        effect->get<SpriteEmitter>(last_emitter).modules = std::move(modules);
-    }
-
-    if constexpr (std::is_same_v<Emitter, MeshEmitter>) {
-        effect->get<MeshEmitter>(last_emitter).modules = std::move(modules);
-    }
-
-    if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
-        effect->get<BeamEmitter>(last_emitter).modules = std::move(modules);
-    }
-    return *this;
-}
-
-template<typename Emitter>
-EffectBuilder& EffectBuilder::createEmitter(const std::string& name) {
-    last_emitter = name;
-    effect->emitters[name] = std::unique_ptr<Emitter>(new Emitter());
-
-    if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
-        effect->get<BeamEmitter>(last_emitter).modules.emplace(new BeamBuilder<BeamParticle>());
-    }
-
-    return *this;
-}
-
-template<typename Emitter>
-UniqueEmitterShader EffectBuilder::getUniqueEmitterShader(const Emitter& emitter) const noexcept {
+UniqueEmitterShader EffectBuilder::getUniqueEmitterShader(const Emitter& emitter) const noexcept
+{
     std::set<ModuleType> module_type;
     for (const auto& module : emitter.modules) {
         module_type.emplace(module->getType());
@@ -437,11 +458,11 @@ UniqueEmitterShader EffectBuilder::getUniqueEmitterShader(const Emitter& emitter
 }
 
 namespace Limitless::fx {
-    template EffectBuilder& EffectBuilder::createEmitter<SpriteEmitter>(const std::string& name);
-    template EffectBuilder& EffectBuilder::createEmitter<MeshEmitter>(const std::string& name);
-    template EffectBuilder& EffectBuilder::createEmitter<BeamEmitter>(const std::string& name);
+    //template EffectBuilder& EffectBuilder::createEmitter<SpriteEmitter>(const std::string& name);
+    //template EffectBuilder& EffectBuilder::createEmitter<MeshEmitter>(const std::string& name);
+    //template EffectBuilder& EffectBuilder::createEmitter<BeamEmitter>(const std::string& name);
 
-    template EffectBuilder& EffectBuilder::setModules<SpriteEmitter>(decltype(SpriteEmitter::modules)&& modules);
-    template EffectBuilder& EffectBuilder::setModules<MeshEmitter>(decltype(MeshEmitter::modules)&& modules);
-    template EffectBuilder& EffectBuilder::setModules<BeamEmitter>(decltype(BeamEmitter::modules)&& modules);
+    //template EffectBuilder& EffectBuilder::setModules<SpriteEmitter>(decltype(SpriteEmitter::modules)&& modules);
+    //template EffectBuilder& EffectBuilder::setModules<MeshEmitter>(decltype(MeshEmitter::modules)&& modules);
+    //template EffectBuilder& EffectBuilder::setModules<BeamEmitter>(decltype(BeamEmitter::modules)&& modules);
 }

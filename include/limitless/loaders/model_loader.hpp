@@ -10,6 +10,7 @@
 #include <limitless/core/context_debug.hpp>
 #include <memory>
 #include <set>
+#include <unordered_map>
 
 namespace Limitless::ms {
     class Material;

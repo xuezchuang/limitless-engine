@@ -2,9 +2,11 @@
 
 #include <limitless/fx/modules/module.hpp>
 
-namespace Limitless::fx {
+namespace Limitless::fx 
+{
     template<typename Particle>
-    class CustomMaterial : public Module<Particle> {
+    class CustomMaterial : public Module<Particle> 
+    {
     private:
         std::array<std::unique_ptr<Distribution<float>>, 4> properties;
     public:
@@ -29,15 +31,19 @@ namespace Limitless::fx {
         auto& getProperties() noexcept { return properties; }
         const auto& getProperties() const noexcept { return properties; }
 
-        void initialize([[maybe_unused]] AbstractEmitter& emitter, Particle& particle, [[maybe_unused]] size_t index) noexcept override {
-            for (size_t i = 0; i < properties.size(); ++i) {
-                if (properties[i]) {
+        void initialize([[maybe_unused]] AbstractEmitter& emitter, Particle& particle, [[maybe_unused]] size_t index) noexcept override 
+        {
+            for (size_t i = 0; i < properties.size(); ++i)
+            {
+                if (properties[i])
+                {
                     particle.properties[i] = properties[i]->get();
                 }
             }
         }
 
-        [[nodiscard]] CustomMaterial* clone() const override {
+        [[nodiscard]] CustomMaterial* clone() const override
+        {
             return new CustomMaterial(*this);
         }
     };

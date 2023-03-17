@@ -2,7 +2,7 @@
 
 #include <limitless/models/elementary_model.hpp>
 #include <limitless/core/vertex.hpp>
-
+#include <corecrt_math_defines.h>
 namespace Limitless {
     class Cylinder : public ElementaryModel {
     public:

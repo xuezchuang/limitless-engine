@@ -36,8 +36,8 @@ namespace Limitless::fx {
                 const auto current_time = steady_clock::now();
                 std::chrono::duration<double> mil = current_time - particle.speed_start;
 
-                particle.length = mil.count() / particle.speed;
-                particle.length = glm::clamp(particle.length, 0.0f, 1.0f);
+                //particle.length = mil.count() / particle.speed;
+                //particle.length = glm::clamp(particle.length, 0.0f, 1.0f);
             }
         }
     };

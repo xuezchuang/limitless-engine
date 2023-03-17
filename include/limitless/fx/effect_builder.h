@@ -4,6 +4,10 @@
 #include <limitless/fx/emitters/emitter_spawn.hpp>
 #include <limitless/fx/modules/distribution.hpp>
 
+#include <limitless/instances/effect_instance.hpp>
+#include <limitless/fx/emitters/beam_emitter.hpp>
+#include <limitless/fx/modules/beam_builder.hpp>
+
 namespace Limitless {
     class EffectInstance;
     class AbstractMesh;
@@ -17,17 +21,33 @@ namespace Limitless {
     }
 }
 
-namespace Limitless::fx {
-    class EffectBuilder {
+namespace Limitless::fx 
+{
+    class EffectBuilder 
+    {
     private:
-        std::shared_ptr<EffectInstance> effect;
+        std::shared_ptr<EffectInstance> effect ;
         std::string effect_name;
         std::string last_emitter;
 
         Assets& assets;
 
         template<typename Emitter>
-        EffectBuilder& setModules(decltype(Emitter::modules)&& modules);
+        EffectBuilder& setModules(decltype(Emitter::modules) && modules)
+        {
+			if constexpr (std::is_same_v<Emitter, SpriteEmitter>)
+			{
+				effect->get<SpriteEmitter>(last_emitter).modules = std::move(modules);
+			}
+			if constexpr (std::is_same_v<Emitter, MeshEmitter>) {
+				effect->get<MeshEmitter>(last_emitter).modules = std::move(modules);
+			}
+
+			if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
+				effect->get<BeamEmitter>(last_emitter).modules = std::move(modules);
+			}
+            return *this;
+        }
 
         EffectBuilder& setSpawn(EmitterSpawn&& spawn);
 
@@ -58,7 +78,17 @@ namespace Limitless::fx {
         EffectBuilder& create(std::string name);
 
         template<typename Emitter>
-        EffectBuilder& createEmitter(const std::string& name);
+        EffectBuilder& createEmitter(const std::string& name)
+        {
+			last_emitter = name;
+			effect->emitters[name] = std::unique_ptr<Emitter>(new Emitter());
+
+			if constexpr (std::is_same_v<Emitter, BeamEmitter>) {
+				effect->get<BeamEmitter>(last_emitter).modules.emplace(new BeamBuilder<BeamParticle>());
+			}
+
+			return *this;
+        }
 
         EffectBuilder& addInitialLocation(std::unique_ptr<Distribution<glm::vec3>> distribution);
         EffectBuilder& addInitialRotation(std::unique_ptr<Distribution<glm::vec3>> distribution);
@@ -99,4 +129,6 @@ namespace Limitless::fx {
 
         std::shared_ptr<EffectInstance> build();
     };
+
+
 }

@@ -3,13 +3,15 @@
 #include <glm/glm.hpp>
 #include <random>
 
-namespace std {
+namespace std 
+{
     template<> struct is_floating_point<glm::vec2> : public true_type {};
     template<> struct is_floating_point<glm::vec3> : public true_type {};
     template<> struct is_floating_point<glm::vec4> : public true_type {};
 
     template<>
-    class uniform_real_distribution<glm::vec2> {
+    class uniform_real_distribution<glm::vec2> 
+    {
     private:
         glm::vec2 min, max;
     public:
@@ -25,7 +27,8 @@ namespace std {
     };
 
     template<>
-    class uniform_real_distribution<glm::vec3> {
+    class uniform_real_distribution<glm::vec3> 
+    {
     private:
         glm::vec3 min, max;
     public:
@@ -42,7 +45,8 @@ namespace std {
     };
 
     template<>
-    class uniform_real_distribution<glm::vec4> {
+    class uniform_real_distribution<glm::vec4>
+    {
     private:
         glm::vec4 min, max;
     public:
@@ -60,11 +64,13 @@ namespace std {
     };
 }
 
-namespace Limitless {
+namespace Limitless
+{
     enum class DistributionType { Const, Range, Curve };
 
     template<typename T>
-    class Distribution {
+    class Distribution 
+    {
     protected:
         DistributionType type;
         explicit Distribution(DistributionType type) noexcept : type{type} { }
@@ -78,7 +84,8 @@ namespace Limitless {
     };
 
     template<typename T>
-    class ConstDistribution : public Distribution<T> {
+    class ConstDistribution : public Distribution<T> 
+    {
     private:
         T value;
     public:
@@ -96,29 +103,44 @@ namespace Limitless {
         }
     };
 
-    template<typename T, typename E = void>
-    class uniform_distribution { static_assert("kek i shrek bratya na vek"); };
-
-    template<typename T>
-    class uniform_distribution<T, typename std::enable_if_t<std::is_integral_v<T>>> {
-        std::uniform_int_distribution<T> distribution;
-    public:
-        uniform_distribution(T min, T max) : distribution{min, max} {}
-        void set(const T& min, const T& max) { distribution = std::uniform_int_distribution{min, max}; }
-        template<typename Gen> auto operator()(Gen&& gen) { return distribution(std::forward<Gen>(gen)); }
+	template<typename T, typename E = void>
+	class uniform_distribution 
+    { 
+        static_assert("kek i shrek bratya na vek");
+		//std::uniform_int_distribution<T> distribution;
+	public:
+		uniform_distribution(T min, T mmax) {}
     };
 
-    template<typename T>
-    class uniform_distribution<T, typename std::enable_if_t<std::is_floating_point_v<T>>> {
-        std::uniform_real_distribution<T> distribution;
-    public:
-        uniform_distribution(T min, T max) : distribution{min, max} {}
-        void set(const T& min, const T& max) { distribution = std::uniform_real_distribution{min, max}; }
-        template<typename Gen> auto operator()(Gen&& gen) { return distribution(std::forward<Gen>(gen)); }
-    };
+	template<typename T>
+	class uniform_distribution<T, typename std::enable_if_t<std::is_integral_v<T>>>
+	{
+		std::uniform_int_distribution<T> distribution;
+	public:
+		uniform_distribution(T min, T max) : distribution{ min, max } {}
+		void set(const T& min, const T& max) { distribution = std::uniform_int_distribution{ min, max }; }
+		template<typename Gen> 
+        auto operator()(Gen&& gen) { return T; }// distribution(std::forward<Gen>(gen)); }
+        template<typename Gen> 
+        auto operator()(Gen& gen) { return T; }// distribution(gen);
+	};
+
+	template<typename T>
+	class uniform_distribution<T, typename std::enable_if_t<std::is_floating_point_v<T>>>
+	{
+		std::uniform_real_distribution<T> distribution;
+	public:
+		uniform_distribution(T min, T max) : distribution{ min, max } {}
+		void set(const T& min, const T& max) { distribution = std::uniform_real_distribution{ min, max }; }
+		template<typename Gen> 
+        auto operator()(Gen&& gen) { return T; }// distribution(std::forward<Gen>(gen)); }
+        template<typename Gen> 
+        auto operator()(Gen& gen) { return T; }// distribution(gen); }
+	};
 
     template<typename T>
-    class RangeDistribution : public Distribution<T> {
+    class RangeDistribution : public Distribution<T> 
+    {
     private:
         T min, max;
 
@@ -137,27 +159,31 @@ namespace Limitless {
         [[nodiscard]] const T& getMax() const noexcept { return max; }
         [[nodiscard]] T& getMax() noexcept { return max; }
 
-        void setMin(const T& _min) noexcept {
+        void setMin(const T& _min) noexcept
+        {
             min = _min;
             distribution.set(min, max);
         }
 
-        void setMax(const T& _max) noexcept {
+        void setMax(const T& _max) noexcept 
+        {
             max = _max;
             distribution.set(min, max);
         }
 
-        T get() override { return distribution(generator); }
-        T get() const override { return distribution(generator); }
+        T get() override { return min; }// distribution(generator); }
+        T get() const override { return min; }// distribution(generator); }
 
-        [[nodiscard]] Distribution<T>* clone() override {
+        [[nodiscard]] Distribution<T>* clone() override
+        {
             return new RangeDistribution<T>(*this);
         }
     };
 
     //TODO:
     template<typename T>
-    class CurveDistribution : public Distribution<T> {
+    class CurveDistribution : public Distribution<T> 
+    {
     private:
 
     public:

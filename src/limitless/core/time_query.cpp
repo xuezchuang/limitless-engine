@@ -2,11 +2,13 @@
 
 using namespace Limitless;
 
-TimeQuery::TimeQuery() {
+TimeQuery::TimeQuery()
+{
     glGenQueries(queries.size(), queries.data());
 }
 
-TimeQuery::~TimeQuery() {
+TimeQuery::~TimeQuery() 
+{
     glDeleteQueries(queries.size(), queries.data());
 }
 

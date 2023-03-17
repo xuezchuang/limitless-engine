@@ -4,6 +4,7 @@
 #include <unordered_map>
 #include <glm/glm.hpp>
 #include <glm/gtx/quaternion.hpp>
+#include <string>
 
 namespace Limitless {
 	class AbstractInstance;

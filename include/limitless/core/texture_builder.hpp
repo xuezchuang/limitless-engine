@@ -5,6 +5,7 @@
 
 #include <variant>
 #include <memory>
+#include <array>
 
 namespace Limitless {
     class TextureBuilder {

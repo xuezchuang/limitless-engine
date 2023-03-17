@@ -5,13 +5,16 @@
 #include <vector>
 #include <memory>
 
-namespace Limitless {
+namespace Limitless 
+{
     class VertexArray;
     class Buffer;
 }
 
-namespace Limitless::fx {
-    struct SpriteParticle {
+namespace Limitless::fx 
+{
+    struct SpriteParticle 
+    {
         // vec4 color
         glm::vec4 color {1.0f};
         // xy - scaling factor; zw - frame uv
@@ -32,7 +35,8 @@ namespace Limitless::fx {
         float _pad {};
     };
 
-    struct alignas(64) MeshParticle {
+    struct alignas(64) MeshParticle 
+    {
         glm::mat4 model;
         // vec4 color
         glm::vec4 color {1.0f};
@@ -57,7 +61,8 @@ namespace Limitless::fx {
         float _pad2 {};
     };
 
-    struct BeamParticle {
+    struct BeamParticle 
+    {
         // vec4 color
         glm::vec4 color {1.0f};
         // xy - scaling factor; zw - frame uv
@@ -93,7 +98,8 @@ namespace Limitless::fx {
     };
 
     // beam particle representation on GPU for mapping
-    struct BeamParticleMapping {
+    struct BeamParticleMapping 
+    {
         // xyzw - position
         glm::vec4 position {0.0f};
         // vec4 color

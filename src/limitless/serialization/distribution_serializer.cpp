@@ -7,14 +7,16 @@
 using namespace Limitless;
 
 template<typename T>
-ByteBuffer DistributionSerializer::serialize(const Distribution<T>& distr) {
+ByteBuffer DistributionSerializer::serialize(const Distribution<T>& distr) 
+{
     ByteBuffer buffer;
 
     buffer << VERSION;
 
     buffer << distr.getType();
 
-    switch (distr.getType()) {
+    switch (distr.getType())
+    {
         case DistributionType::Const:
             buffer << distr.get();
             break;

@@ -2,9 +2,11 @@
 
 #include <limitless/fx/modules/module.hpp>
 
-namespace Limitless::fx {
+namespace Limitless::fx 
+{
     template<typename Particle>
-    class SubUV : public Module<Particle> {
+    class SubUV : public Module<Particle> 
+    {
     private:
         // uv of all frames
         std::vector<glm::vec2> frames;
@@ -20,9 +22,10 @@ namespace Limitless::fx {
         // frame count
         glm::vec2 frame_count;
 
-        void updateFrames() noexcept {
-            uint32_t width = texture_size.x / frame_count.x;
-            uint32_t height = texture_size.y / frame_count.y;
+        void updateFrames() noexcept 
+        {
+            uint32_t width = (uint32_t)(texture_size.x / frame_count.x);
+            uint32_t height = (uint32_t)(texture_size.y / frame_count.y);
 
             frames.clear();
             for (uint32_t i = 0; i < frame_count.x; ++i)
