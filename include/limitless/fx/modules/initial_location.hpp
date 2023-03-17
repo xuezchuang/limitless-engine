@@ -1,7 +1,7 @@
 #pragma once
 
 #include <limitless/fx/modules/module.hpp>
-#include <limitless/fx/modules/distribution.hpp>
+#include <limitless/fx/modules/distribution.h>
 
 namespace Limitless::fx {
     template<typename Particle>

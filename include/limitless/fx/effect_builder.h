@@ -2,7 +2,7 @@
 
 #include <limitless/fx/emitters/unique_emitter.hpp>
 #include <limitless/fx/emitters/emitter_spawn.hpp>
-#include <limitless/fx/modules/distribution.hpp>
+#include <limitless/fx/modules/distribution.h>
 
 #include <limitless/instances/effect_instance.hpp>
 #include <limitless/fx/emitters/beam_emitter.hpp>

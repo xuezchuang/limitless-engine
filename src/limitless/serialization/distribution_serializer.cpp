@@ -1,6 +1,6 @@
 #include <limitless/serialization/distribution_serializer.hpp>
 
-#include <limitless/fx/modules/distribution.hpp>
+#include <limitless/fx/modules/distribution.h>
 #include <limitless/util/bytebuffer.hpp>
 #include <stdexcept>
 
@@ -15,19 +15,19 @@ ByteBuffer DistributionSerializer::serialize(const Distribution<T>& distr)
 
     buffer << distr.getType();
 
-    switch (distr.getType())
-    {
-        case DistributionType::Const:
-            buffer << distr.get();
-            break;
-        case DistributionType::Range:
-            buffer << static_cast<const RangeDistribution<T>&>(distr).getMin()
-                   << static_cast<const RangeDistribution<T>&>(distr).getMax();
-            break;
-        case DistributionType::Curve:
-            assert("TODO");
-            break;
-    }
+    //switch (distr.getType())
+    //{
+    //    case DistributionType::Const:
+    //        buffer << distr.get();
+    //        break;
+    //    case DistributionType::Range:
+    //        buffer << static_cast<const RangeDistribution<T>&>(distr).getMin()
+    //               << static_cast<const RangeDistribution<T>&>(distr).getMax();
+    //        break;
+    //    case DistributionType::Curve:
+    //        assert("TODO");
+    //        break;
+    //}
 
     return buffer;
 }
@@ -46,24 +46,24 @@ std::unique_ptr<Distribution<T>> DistributionSerializer::deserialize(ByteBuffer&
     buffer >> type;
 
     std::unique_ptr<Distribution<T>> distribution;
-    switch (type) {
-        case DistributionType::Const: {
-            T value{};
-            buffer >> value;
-            distribution = std::unique_ptr<Distribution<T>>(new ConstDistribution<T>(value));
-            break;
-        }
-        case DistributionType::Range: {
-            T min{};
-            T max{};
-            buffer >> min >> max;
-            distribution = std::unique_ptr<Distribution<T>>(new RangeDistribution<T>(min, max));
-            break;
-        }
-        case DistributionType::Curve:
-            assert("TODO");
-            break;
-    }
+    //switch (type) {
+    //    case DistributionType::Const: {
+    //        T value{};
+    //        buffer >> value;
+    //        distribution = std::unique_ptr<Distribution<T>>(new ConstDistribution<T>(value));
+    //        break;
+    //    }
+    //    case DistributionType::Range: {
+    //        T min{};
+    //        T max{};
+    //        buffer >> min >> max;
+    //        distribution = std::unique_ptr<Distribution<T>>(new RangeDistribution<T>(min, max));
+    //        break;
+    //    }
+    //    case DistributionType::Curve:
+    //        assert("TODO");
+    //        break;
+    //}
 
     return distribution;
 }

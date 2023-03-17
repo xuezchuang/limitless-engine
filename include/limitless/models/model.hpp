@@ -6,8 +6,10 @@ namespace Limitless::ms {
     class Material;
 }
 
-namespace Limitless {
-    class Model : public AbstractModel {
+namespace Limitless
+{
+    class Model : public AbstractModel 
+    {
     protected:
         std::vector<std::shared_ptr<ms::Material>> materials;
     public:

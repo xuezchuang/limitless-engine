@@ -46,7 +46,8 @@ std::shared_ptr<AbstractModel> ModelLoader::loadModel(Assets& assets, const fs::
 
     scene = importer.ReadFile(path.string().c_str(), scene_flags);
 
-    if (!scene || scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE || !scene->mRootNode) {
+    if (!scene || /*scene->mFlags & AI_SCENE_FLAGS_INCOMPLETE ||*/ !scene->mRootNode) 
+    {
         throw model_loader_error(importer.GetErrorString());
     }
 

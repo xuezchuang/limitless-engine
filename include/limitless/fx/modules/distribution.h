@@ -2,6 +2,10 @@
 
 #include <glm/glm.hpp>
 #include <random>
+//#include <WinUser.h>
+#include <windows.h>
+#undef max
+#undef min
 
 namespace std 
 {
@@ -15,8 +19,8 @@ namespace std
     private:
         glm::vec2 min, max;
     public:
-        uniform_real_distribution(const glm::vec2& min, const glm::vec2& max) noexcept
-                : min(min), max(max) {}
+        uniform_real_distribution(const glm::vec2& _min, const glm::vec2& _max) noexcept
+                : min(_min), max(_max) {}
 
         template<typename _UniformRandomNumberGenerator>
         glm::vec2 operator()(_UniformRandomNumberGenerator& __urng) {
@@ -109,7 +113,11 @@ namespace Limitless
         static_assert("kek i shrek bratya na vek");
 		//std::uniform_int_distribution<T> distribution;
 	public:
-		uniform_distribution(T min, T mmax) {}
+		uniform_distribution(T min, T mmax) 
+        {
+            OutputDebugString("111");
+            //count << "error" << endl;
+        }
     };
 
 	template<typename T>
@@ -120,9 +128,9 @@ namespace Limitless
 		uniform_distribution(T min, T max) : distribution{ min, max } {}
 		void set(const T& min, const T& max) { distribution = std::uniform_int_distribution{ min, max }; }
 		template<typename Gen> 
-        auto operator()(Gen&& gen) { return T; }// distribution(std::forward<Gen>(gen)); }
+        auto operator()(Gen&& gen) { return distribution(std::forward<Gen>(gen)); }
         template<typename Gen> 
-        auto operator()(Gen& gen) { return T; }// distribution(gen);
+        auto operator()(Gen& gen) { return distribution(gen); }
 	};
 
 	template<typename T>
@@ -130,12 +138,16 @@ namespace Limitless
 	{
 		std::uniform_real_distribution<T> distribution;
 	public:
-		uniform_distribution(T min, T max) : distribution{ min, max } {}
+		uniform_distribution(T min, T max) : distribution{ min, max }
+        {
+            OutputDebugString("222");
+            //count << "222" << endl;
+        }
 		void set(const T& min, const T& max) { distribution = std::uniform_real_distribution{ min, max }; }
 		template<typename Gen> 
-        auto operator()(Gen&& gen) { return T; }// distribution(std::forward<Gen>(gen)); }
+        auto operator()(Gen&& gen) { return distribution(std::forward<Gen>(gen)); }
         template<typename Gen> 
-        auto operator()(Gen& gen) { return T; }// distribution(gen); }
+        auto operator()(Gen& gen) { return distribution(gen); }
 	};
 
     template<typename T>
@@ -147,10 +159,10 @@ namespace Limitless
         mutable std::default_random_engine generator;
         mutable uniform_distribution<T> distribution;
     public:
-        RangeDistribution(const T& min, const T& max) noexcept
+        RangeDistribution(const T& _min, const T& _max) noexcept
             : Distribution<T>(DistributionType::Range)
-            , min(min)
-            , max(max)
+            , min(_min)
+            , max(_max)
             , distribution(min, max) {}
         ~RangeDistribution() override = default;
 
@@ -171,8 +183,8 @@ namespace Limitless
             distribution.set(min, max);
         }
 
-        T get() override { return min; }// distribution(generator); }
-        T get() const override { return min; }// distribution(generator); }
+        T get() override { return distribution(generator); }
+        T get() const override { return min; }// distribution(generator);
 
         [[nodiscard]] Distribution<T>* clone() override
         {

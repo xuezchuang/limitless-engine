@@ -1,6 +1,6 @@
 #pragma once
 
-#include <limitless/fx/modules/distribution.hpp>
+#include <limitless/fx/modules/distribution.h>
 #include <optional>
 #include <chrono>
 #include <memory>

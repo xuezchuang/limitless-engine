@@ -802,6 +802,14 @@ void DemoAssets::loadModelsScene()
                 .addModelShader(ModelShader::Skeletal)
                 .build();
 
+		//materials.push_back(skin);
+		//materials.push_back(body);
+		//materials.push_back(eyes);
+		//materials.push_back(blueenv);
+		//materials.push_back(eyesenv);
+		//materials.push_back(grayenv);
+		//materials.push_back(skin);
+        materials.resize(7);
         materials[0] = skin;
         materials[1] = body;
         materials[2] = eyes;
@@ -863,9 +871,10 @@ void DemoAssets::loadModelsScene()
                 .addModelShader(ModelShader::Skeletal)
                 .build();
 
-        materials[0] = hair;
-        materials[1] = cloth;
-        materials[2] = head;
+
+		materials.push_back(hair);
+		materials.push_back(cloth);
+		materials.push_back(head);
     }
 
     {
@@ -891,6 +900,10 @@ void DemoAssets::loadModelsScene()
                 .addModelShader(ModelShader::Skeletal)
                 .build();
 
+        
+        //if(materials.size())
+        //    materials.push_back(skin);
+        //else
         materials[0] = skin;
     }
 
@@ -927,8 +940,9 @@ void DemoAssets::loadModelsScene()
                 .addModelShader(ModelShader::Skeletal)
                 .build();
 
-        materials[0] = head;
-        materials[1] = body;
+        materials.resize(2);
+		materials[0] = head;
+		materials[1] = body;
     }
 
     {
@@ -952,7 +966,8 @@ void DemoAssets::loadModelsScene()
                 .setShading(Shading::Lit)
                 .build();
 
-        materials[0] = body;
+        materials.resize(1);
+		materials[0] = body;
     }
     
     {
@@ -963,7 +978,7 @@ void DemoAssets::loadModelsScene()
                ::ModelLoaderOption::FlipUV
        }}));
         models.add("cyborg", ModelLoader::loadModel(*this, assets_dir / "models/cyborg/cyborg.obj"));
-        models.add("drone", ModelLoader::loadModel(*this, assets_dir / "models/drone/model/BusterDrone.fbx"));
+        //models.add("drone", ModelLoader::loadModel(*this, assets_dir / "models/drone/model/BusterDrone.fbx"));
     }
 
     {

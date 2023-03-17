@@ -15,7 +15,7 @@
 #include <limitless/fx/modules/custom_material_by_life.hpp>
 #include <limitless/fx/modules/lifetime.hpp>
 #include <limitless/fx/modules/velocity_by_life.hpp>
-#include <limitless/fx/modules/distribution.hpp>
+#include <limitless/fx/modules/distribution.h>
 #include <limitless/fx/modules/beam_builder.hpp>
 #include <limitless/fx/modules/beam_target.hpp>
 #include <limitless/fx/modules/beam_rebuild.hpp>
