@@ -24,9 +24,9 @@ namespace std
 
         template<typename _UniformRandomNumberGenerator>
         glm::vec2 operator()(_UniformRandomNumberGenerator& __urng) {
-            __detail::_Adaptor<_UniformRandomNumberGenerator, float> __aurng(__urng);
-            return { __aurng() * (max.x - min.x) + min.x,
-                     __aurng() * (max.y - min.y) + min.y };
+            //__detail::_Adaptor<_UniformRandomNumberGenerator, float> __aurng(__urng);
+            return { __urng() * (max.x - min.x) + min.x,
+                     __urng() * (max.y - min.y) + min.y };
         }
     };
 
@@ -40,11 +40,12 @@ namespace std
                 : min(min), max(max) {}
 
         template<typename _UniformRandomNumberGenerator>
-        glm::vec3 operator()(_UniformRandomNumberGenerator& __urng) {
-            __detail::_Adaptor<_UniformRandomNumberGenerator, float> __aurng(__urng);
-            return { __aurng() * (max.x - min.x) + min.x,
-                     __aurng() * (max.y - min.y) + min.y,
-                     __aurng() * (max.z - min.z) + min.z };
+        glm::vec3 operator()(_UniformRandomNumberGenerator& __urng)
+        {
+            //std::__detail::_Adaptor<_UniformRandomNumberGenerator, float> __aurng(__urng);
+            return { __urng() * (max.x - min.x) + min.x,
+                     __urng() * (max.y - min.y) + min.y,
+                     __urng() * (max.z - min.z) + min.z };
         }
     };
 
@@ -59,11 +60,11 @@ namespace std
 
         template<typename _UniformRandomNumberGenerator>
         glm::vec4 operator()(_UniformRandomNumberGenerator& __urng) {
-            __detail::_Adaptor<_UniformRandomNumberGenerator, float> __aurng(__urng);
-            return { __aurng() * (max.x - min.x) + min.x,
-                     __aurng() * (max.y - min.y) + min.y,
-                     __aurng() * (max.z - min.z) + min.z,
-                     __aurng() * (max.w - min.w) + min.w };
+            //__detail::_Adaptor<_UniformRandomNumberGenerator, float> __aurng(__urng);
+            return { __urng() * (max.x - min.x) + min.x,
+                     __urng() * (max.y - min.y) + min.y,
+                     __urng() * (max.z - min.z) + min.z,
+                     __urng() * (max.w - min.w) + min.w };
         }
     };
 }
@@ -115,7 +116,8 @@ namespace Limitless
 	public:
 		uniform_distribution(T min, T mmax) 
         {
-            OutputDebugString("111");
+            static_assert("kek i shrek bratya na vek");
+            //OutputDebugString("111");
             //count << "error" << endl;
         }
     };
@@ -148,6 +150,35 @@ namespace Limitless
         auto operator()(Gen&& gen) { return distribution(std::forward<Gen>(gen)); }
         template<typename Gen> 
         auto operator()(Gen& gen) { return distribution(gen); }
+	};
+
+	template<typename T, typename E = void>
+	struct is_glm_type : public std::false_type {};
+	template<typename T>
+	struct is_glm_type<T, std::enable_if_t<
+        std::is_same_v<glm::vec2, T> ||
+		std::is_same_v<glm::vec3, T> ||
+		std::is_same_v<glm::vec4, T>>> : public std::true_type {};
+	//	std::is_same_v<glm::mat2, T> ||
+	//	std::is_same_v::mat3, T> ||
+	//	std::is_same_v<glm::mat4, T>> > : public std::true_type {};
+
+	template<typename T>
+	//class uniform_distribution<T, typename std::enable_if_t<std::is_same_v<glm::vec3,T>>>
+    class uniform_distribution<T, typename std::enable_if_t<is_glm_type<T>::value>>
+	{
+		std::uniform_real_distribution<T> distribution;
+	public:
+		uniform_distribution(T min, T max) : distribution{ min, max }
+		{
+			OutputDebugString("222");
+			//count << "222" << endl;`
+		}
+		void set(const T& min, const T& max) { distribution = std::uniform_real_distribution{ min, max }; }
+		template<typename Gen>
+		auto operator()(Gen&& gen) { return T(distribution(std::forward<Gen>(gen))); }
+		template<typename Gen>
+		auto operator()(Gen& gen) { return T(distribution(gen)); }
 	};
 
     template<typename T>
@@ -184,7 +215,7 @@ namespace Limitless
         }
 
         T get() override { return distribution(generator); }
-        T get() const override { return min; }// distribution(generator);
+        T get() const override { return distribution(generator); }
 
         [[nodiscard]] Distribution<T>* clone() override
         {

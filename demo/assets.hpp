@@ -3,7 +3,8 @@
 #include <limitless/assets.hpp>
 #include <limitless/pipeline/renderer.hpp>
 #include <corecrt_math_defines.h>
-class DemoAssets : public Limitless::Assets {
+class DemoAssets : public Limitless::Assets 
+{
 private:
     void loadLightingScene();
     void loadMaterialsScene();

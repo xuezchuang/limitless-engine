@@ -43,7 +43,8 @@ void EffectsScene::addInstances(Limitless::Assets& assets) {
 }
 
 EffectsScene::EffectsScene(Limitless::Context& ctx, Limitless::Assets& assets)
-    : Limitless::Scene(ctx) {
+    : Limitless::Scene(ctx) 
+{
     addInstances(assets);
 
     setSkybox(assets.skyboxes.at("skybox"));
